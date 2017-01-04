@@ -4,11 +4,11 @@ jupyterhub_config.py
 jupyterhub_cookie_secret
 node_modules
 debian/jupyterhub
-debian/compat
 debian/files
 debian/jupyterhub.debhelper.log
 debian/jupyterhub.postinst.debhelper
 debian/jupyterhub.postrm.debhelper
 debian/jupyterhub.prerm.debhelper
 debian/jupyterhub.substvars
+debian/debhelper.log
 debian/tmp/
