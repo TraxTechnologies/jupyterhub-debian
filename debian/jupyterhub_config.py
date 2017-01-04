@@ -14,7 +14,6 @@
 
 ## Set the log level by value or name.
 #c.Application.log_level = 30
-c.JupyterHub.extra_log_file = '/var/log/jupyterhub.log'
 
 #------------------------------------------------------------------------------
 # JupyterHub(Application) configuration
@@ -116,7 +115,7 @@ c.JupyterHub.data_files_path = '/var/lib/jupyterhub'
 #c.JupyterHub.db_kwargs = {}
 
 ## url for the database. e.g. `sqlite:///jupyterhub.sqlite`
-#c.JupyterHub.db_url = 'sqlite:///jupyterhub.sqlite'
+c.JupyterHub.db_url = 'sqlite:////var/lib/jupyterhub/jupyterhub.sqlite'
 
 ## log all database transactions. This has A LOT of output
 #c.JupyterHub.debug_db = False
@@ -128,7 +127,7 @@ c.JupyterHub.data_files_path = '/var/lib/jupyterhub'
 #  
 #  This will *only* include the logs of the Hub itself, not the logs of the proxy
 #  or any single-user servers.
-#c.JupyterHub.extra_log_file = ''
+c.JupyterHub.extra_log_file = '/var/log/jupyterhub.log'
 
 ## Extra log handlers to set on JupyterHub logger
 #c.JupyterHub.extra_log_handlers = []
