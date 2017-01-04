@@ -38,7 +38,7 @@ case "$1" in
   if ! dpkg-statoverride --list $SERVER_HOME >/dev/null
   then
       chown -R $SERVER_USER:adm $SERVER_HOME
-      chmod u=rwx,g=rxs,o= $SERVER_HOME
+      chmod u=rwx,g=rwx,o= $SERVER_HOME
   fi
   # 6. Add the user to the ADDGROUP group
   if test -n $ADDGROUP
@@ -48,7 +48,12 @@ case "$1" in
            adduser $SERVER_USER $ADDGROUP
       fi
   fi
-  sentry init
+  chown -R $SERVER_USER:adm /var/lib/jupyterhub
+  ln -s /etc/jupyterhub/jupyterhub_config.py /usr/share/python/jupyterhub/jupyterhub_config.py
+  if [ ! -e $SERVER_HOME/node_modules/configurable-http-proxy/bin/configurable-http-proxy ];then
+	cd $SERVER_HOME
+        su $SERVER_USER npm install configurable-http-proxy
+  fi
   echo -n "Finished postinst.."
   ;;
   *)

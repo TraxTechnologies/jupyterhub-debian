@@ -16,8 +16,8 @@ ENABLED="true"
 NAME=jupyterhub
 SCRIPT_NAME=jupyterhub
 DAEMON=/usr/bin/$SCRIPT_NAME
-DAEMON_ARGS=""
 PIDFILE=/var/run/$NAME.pid
+DAEMON_ARGS="--pidfile $PIDFILE"
 
 # Exit if the package is not installed
 [ -x "$DAEMON" ] || exit 0
@@ -32,7 +32,7 @@ case "$1" in
     start)
         if [ "$ENABLED" = "true" ] ; then
             log_daemon_msg "Starting $DESC" "$NAME"
-            if start-stop-daemon --start --quiet -m -b -c $SCRIPT_NAME:$SCRIPT_NAME --pidfile $PIDFILE --exec $DAEMON -- $DAEMON_ARGS; then
+            if start-stop-daemon --start --quiet -m -b -c $SCRIPT_NAME:$SCRIPT_NAME --exec $DAEMON -- $DAEMON_ARGS; then
                 log_end_msg 0
             else
                 log_end_msg 1
