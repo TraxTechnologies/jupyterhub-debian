@@ -1,4 +1,9 @@
 #!/bin/bash
-JUPYTERHUB_ROOT=/usr/share/python/jupyterhub
-PATH="$JUPYTERHUB_ROOT/node_modules/configurable-http-proxy/bin/:${PATH}"
-(cd $JUPYTERHUB_ROOT && source bin/activate && su - jupyterhub -p -c bin/jupyterhub $@)
+HOME=/usr/share/python/jupyterhub
+if [[ $EUID -ne 0 ]]; then
+   echo "jupyterhub script must be run as root" 1>&2
+   exit 1
+fi
+su jupyterhub
+source "${HOME}/bin/activate"
+PATH="${HOME}/node_modules/configurable-http-proxy/bin:${PATH}" jupyterhub "${@}"

@@ -48,6 +48,12 @@ case "$1" in
            adduser $SERVER_USER $ADDGROUP
       fi
   fi
+  if [ ! -e "${SERVER_HOME}/node_modules" ]; then
+    echo "Install node modules: $SERVER_USER";
+    cd "${SERVER_HOME}";
+    ENV_PATH="${PATH}" HOME="${SERVER_HOME}" /bin/su - $SERVER_USER -p -c "/usr/bin/npm install configurable-http-proxy";
+    echo "After nmp install";
+  fi
   chown -R $SERVER_USER:adm /var/lib/jupyterhub
   ln -s /etc/jupyterhub/jupyterhub_config.py /usr/share/python/jupyterhub/jupyterhub_config.py
   if [ ! -e $SERVER_HOME/selfsigned.crt ]; then
@@ -55,10 +61,6 @@ case "$1" in
       openssl req -subj "/C=US/ST=Arizona/L=Scottsdale/O=JupyterHub/OU=JubyterJub/CN=$HOSTNAME" \
     	-new -newkey rsa:2049 -days 365 -nodes -x509 \
     	-keyout $SERVER_HOME/selfsigened.key -out $SERVER_HOME/selfsigned.crt
-  fi
-  if [ ! -e $SERVER_HOME/node_modules/configurable-http-proxy/bin/configurable-http-proxy ];then
-	cd $SERVER_HOME
-        su $SERVER_USER npm install configurable-http-proxy
   fi
   echo -n "Finished postinst.."
   ;;
