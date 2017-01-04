@@ -1,0 +1,3 @@
+#!/usr/bin/dh-exec
+debian/jupyterhub.sh => /usr/bin/jupyterhub
+#debian/jupyterhub-web.init => /etc/init.d/jupyterhub

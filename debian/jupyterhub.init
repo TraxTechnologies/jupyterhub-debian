@@ -1,0 +1,85 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          jupyterhub
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Jupyterhub web service
+# Description:       Jupyterhub lunches multiuser notebooks
+### END INIT INFO
+
+# Author: Trax DevOps <devops@traxtech.com>
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+DESC="Jupyterhub web service"
+ENABLED="true"
+NAME=jupyterhub
+SCRIPT_NAME=jupyterhub
+DAEMON=/usr/bin/$SCRIPT_NAME
+DAEMON_ARGS=""
+PIDFILE=/var/run/$NAME.pid
+
+# Exit if the package is not installed
+[ -x "$DAEMON" ] || exit 0
+
+set -e
+
+#[ -r /etc/default/jupyterhub ] && . /etc/default/jupyterhub
+
+. /lib/lsb/init-functions
+
+case "$1" in
+    start)
+        if [ "$ENABLED" = "true" ] ; then
+            log_daemon_msg "Starting $DESC" "$NAME"
+            if start-stop-daemon --start --quiet -m -b -c $SCRIPT_NAME:$SCRIPT_NAME --pidfile $PIDFILE --exec $DAEMON -- $DAEMON_ARGS; then
+                log_end_msg 0
+            else
+                log_end_msg 1
+            fi
+        fi
+        ;;
+
+    stop)
+	if [ -e "$PIDFILE" ]; then
+            log_daemon_msg "Stopping $DESC" "$NAME"
+            if start-stop-daemon --stop --ppid $(cat $PIDFILE) --retry 30; then
+                rm -r $PIDFILE
+                log_end_msg 0
+            else
+                log_end_msg 1
+            fi
+        fi
+        ;;
+
+    restart)
+	if [ -e "$PIDFILE" ]; then
+            log_daemon_msg "Restarting $DESC" "$NAME"
+            if start-stop-daemon --stop --ppid $(cat $PIDFILE) --retry 30; then
+                rm -r $PIDFILE
+                log_end_msg 0
+            else
+                log_end_msg 1
+            fi
+            if [ "$ENABLED" = "true" ] ; then
+                log_daemon_msg "Starting $DESC" "$NAME"
+                if start-stop-daemon --start --quiet --pidfile $PIDFILE --exec $DAEMON -- $DAEMON_ARGS; then
+                    log_end_msg 0
+                else
+                    log_end_msg 1
+                fi
+            fi
+        fi
+	;;
+
+    status)
+        status_of_proc -p $PIDFILE $DAEMON $NAME && exit 0 || exit $?
+        ;;
+
+    *)
+	echo "Usage: /etc/init.d/jupyterhub {start|stop|restart|status}"
+	exit 1
+	;;
+esac
+
+exit 0

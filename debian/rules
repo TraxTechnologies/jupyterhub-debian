@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
-PYVERS = $(shell pyversions -r -v)
+PYVERS = 3.4
 
 %:
-	dh $@ --with python-virtualenv --no-test
+	dh $@ --python=/usr/bin/python3.4 --with python-virtualenv --no-test

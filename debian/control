@@ -2,8 +2,8 @@ Source: jupyterhub
 Maintainer: Trax DevOps <devops@traxtech.com>
 Section: python
 Priority: optional
-Build-Depends: python, dh-virtualenv, dh-exec
-X-Python-Version: >= 2.7
+Build-Depends: python3, dh-virtualenv, dh-exec
+X-Python3-Version: >= 3.4
 Standards-Version: 3.9.6
 
 Package: jupyterhub
