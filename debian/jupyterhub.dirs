@@ -1,1 +1,3 @@
 /var/lib/jupyterhub
+/var/run/jupyterhub
+/var/log/jupyterhub

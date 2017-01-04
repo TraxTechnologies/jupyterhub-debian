@@ -55,6 +55,8 @@ case "$1" in
     echo "After nmp install";
   fi
   chown -R $SERVER_USER:adm /var/lib/jupyterhub
+  chown -R $SERVER_USER:adm /var/log/jupyterhub
+  chown -R $SERVER_USER:adm /var/run/jupyterhub
   ln -s /etc/jupyterhub/jupyterhub_config.py /usr/share/python/jupyterhub/jupyterhub_config.py
   if [ ! -e $SERVER_HOME/selfsigned.crt ]; then
       HOSTNAME=$(hostname)
