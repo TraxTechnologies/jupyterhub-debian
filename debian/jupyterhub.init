@@ -15,7 +15,7 @@ DESC="Jupyterhub web service"
 ENABLED="true"
 NAME=jupyterhub
 SCRIPT_NAME=jupyterhub
-DAEMON=/usr/bin/$SCRIPT_NAME
+DAEMON=/usr/sbin/$SCRIPT_NAME
 PIDFILE=/var/run/$NAME.pid
 DAEMON_ARGS="--pidfile $PIDFILE"
 

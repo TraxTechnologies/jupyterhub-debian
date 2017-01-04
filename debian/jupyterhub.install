@@ -1,4 +1,4 @@
 #!/usr/bin/dh-exec
-debian/jupyterhub.sh => /usr/bin/jupyterhub
+debian/jupyterhub.sh => /usr/sbin/jupyterhub
 debian/jupyterhub_config.py => /etc/jupyterhub/jupyterhub_config.py
 debian/jupyterhub.init => /etc/init.d/jupyterhub
