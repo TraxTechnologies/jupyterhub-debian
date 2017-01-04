@@ -62,7 +62,7 @@ case "$1" in
       HOSTNAME=$(hostname)
       openssl req -subj "/C=US/ST=Arizona/L=Scottsdale/O=JupyterHub/OU=JubyterJub/CN=$HOSTNAME" \
     	-new -newkey rsa:2049 -days 365 -nodes -x509 \
-    	-keyout $SERVER_HOME/selfsigened.key -out $SERVER_HOME/selfsigned.crt
+    	-keyout $SERVER_HOME/selfsigned.key -out $SERVER_HOME/selfsigned.crt
   fi
   echo -n "Finished postinst.."
   ;;

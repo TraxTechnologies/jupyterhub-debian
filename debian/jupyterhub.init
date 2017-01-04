@@ -16,8 +16,8 @@ ENABLED="true"
 NAME=jupyterhub
 SCRIPT_NAME=jupyterhub
 DAEMON=/usr/sbin/$SCRIPT_NAME
-PIDFILE=/var/run/$NAME.pid
-DAEMON_ARGS="--pidfile $PIDFILE"
+PIDFILE=/var/run/jupyterhub/$NAME.pid
+DAEMON_ARGS="--pid-file $PIDFILE"
 
 # Exit if the package is not installed
 [ -x "$DAEMON" ] || exit 0
@@ -32,7 +32,7 @@ case "$1" in
     start)
         if [ "$ENABLED" = "true" ] ; then
             log_daemon_msg "Starting $DESC" "$NAME"
-            if start-stop-daemon --start --quiet -b -c $SCRIPT_NAME:$SCRIPT_NAME --pidfile $PIDFILE --exec $DAEMON -- $DAEMON_ARGS; then
+            if start-stop-daemon --start --quiet -b --pidfile "$PIDFILE" --exec $DAEMON -- $DAEMON_ARGS; then
                 log_end_msg 0
             else
                 log_end_msg 1
@@ -43,8 +43,8 @@ case "$1" in
     stop)
 	if [ -e "$PIDFILE" ]; then
             log_daemon_msg "Stopping $DESC" "$NAME"
-            if start-stop-daemon --stop --ppid $(cat $PIDFILE) --retry 30; then
-                rm -r $PIDFILE
+            if start-stop-daemon --stop --pidfile "$PIDFILE" --retry 30; then
+                rm -rf $PIDFILE && true
                 log_end_msg 0
             else
                 log_end_msg 1
@@ -55,15 +55,15 @@ case "$1" in
     restart)
 	if [ -e "$PIDFILE" ]; then
             log_daemon_msg "Restarting $DESC" "$NAME"
-            if start-stop-daemon --stop --ppid $(cat $PIDFILE) --retry 30; then
-                rm -r $PIDFILE
+            if start-stop-daemon --stop --pidfile "$PIDFILE" --retry 30; then
+                rm -rf $PIDFILE && true
                 log_end_msg 0
             else
                 log_end_msg 1
             fi
             if [ "$ENABLED" = "true" ] ; then
                 log_daemon_msg "Starting $DESC" "$NAME"
-                if start-stop-daemon --start --quiet --exec $DAEMON -- $DAEMON_ARGS; then
+                if start-stop-daemon --start -b --pidfile "$PIDFILE" --quiet --exec $DAEMON -- $DAEMON_ARGS; then
                     log_end_msg 0
                 else
                     log_end_msg 1
