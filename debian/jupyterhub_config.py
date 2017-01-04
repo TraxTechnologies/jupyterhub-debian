@@ -14,6 +14,7 @@
 
 ## Set the log level by value or name.
 #c.Application.log_level = 30
+c.JupyterHub.extra_log_file = '/var/log/jupyterhub.log'
 
 #------------------------------------------------------------------------------
 # JupyterHub(Application) configuration
@@ -108,7 +109,7 @@
 #c.JupyterHub.cookie_secret_file = 'jupyterhub_cookie_secret'
 
 ## The location of jupyterhub data files (e.g. /usr/local/share/jupyter/hub)
-#c.JupyterHub.data_files_path = '/home/daniel.wozniak/jupyterhub/jupyterhub-dhpython/venv/share/jupyter/hub'
+c.JupyterHub.data_files_path = '/var/lib/jupyterhub'
 
 ## Include any kwargs to pass to the database connection. See
 #  sqlalchemy.create_engine for details.
@@ -166,10 +167,10 @@
 #c.JupyterHub.pid_file = ''
 
 ## The public facing port of the proxy
-#c.JupyterHub.port = 8000
+c.JupyterHub.port = 8444
 
 ## The ip for the proxy API handlers
-#c.JupyterHub.proxy_api_ip = '127.0.0.1'
+c.JupyterHub.proxy_api_ip = '0.0.0.0'
 
 ## The port for the proxy API handlers
 #c.JupyterHub.proxy_api_port = 0
@@ -224,12 +225,12 @@
 ## Path to SSL certificate file for the public facing interface of the proxy
 #  
 #  Use with ssl_key
-#c.JupyterHub.ssl_cert = ''
+c.JupyterHub.ssl_cert = 'selfsigened.crt'
 
 ## Path to SSL key file for the public facing interface of the proxy
 #  
 #  Use with ssl_cert
-#c.JupyterHub.ssl_key = ''
+c.JupyterHub.ssl_key = 'selfsigened.key'
 
 ## Host to send statsd metrics to
 #c.JupyterHub.statsd_host = ''

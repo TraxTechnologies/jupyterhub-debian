@@ -50,6 +50,12 @@ case "$1" in
   fi
   chown -R $SERVER_USER:adm /var/lib/jupyterhub
   ln -s /etc/jupyterhub/jupyterhub_config.py /usr/share/python/jupyterhub/jupyterhub_config.py
+  if [ ! -e $SERVER_HOME/selfsigned.crt ]; then
+      HOSTNAME=$(hostname)
+      openssl req -subj "/C=US/ST=Arizona/L=Scottsdale/O=JupyterHub/OU=JubyterJub/CN=$HOSTNAME" \
+    	-new -newkey rsa:2049 -days 365 -nodes -x509 \
+    	-keyout $SERVER_HOME/selfsigened.key -out $SERVER_HOME/selfsigned.crt
+  fi
   if [ ! -e $SERVER_HOME/node_modules/configurable-http-proxy/bin/configurable-http-proxy ];then
 	cd $SERVER_HOME
         su $SERVER_USER npm install configurable-http-proxy
