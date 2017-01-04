@@ -57,7 +57,9 @@ case "$1" in
   chown -R $SERVER_USER:adm /var/lib/jupyterhub
   chown -R $SERVER_USER:adm /var/log/jupyterhub
   chown -R $SERVER_USER:adm /var/run/jupyterhub
-  ln -s /etc/jupyterhub/jupyterhub_config.py /usr/share/python/jupyterhub/jupyterhub_config.py
+  if [ ! -e /usr/share/python/jupyterhub/jupyterhub_config.py ];then
+    ln -s /etc/jupyterhub/jupyterhub_config.py /usr/share/python/jupyterhub/jupyterhub_config.py
+  fi
   if [ ! -e $SERVER_HOME/selfsigned.crt ]; then
       HOSTNAME=$(hostname)
       openssl req -subj "/C=US/ST=Arizona/L=Scottsdale/O=JupyterHub/OU=JubyterJub/CN=$HOSTNAME" \
