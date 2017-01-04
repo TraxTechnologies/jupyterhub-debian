@@ -127,7 +127,7 @@ c.JupyterHub.db_url = 'sqlite:////var/lib/jupyterhub/jupyterhub.sqlite'
 #  
 #  This will *only* include the logs of the Hub itself, not the logs of the proxy
 #  or any single-user servers.
-c.JupyterHub.extra_log_file = '/var/log/jupyterhub.log'
+c.JupyterHub.extra_log_file = '/var/log/jupyterhub/jupyterhub.log'
 
 ## Extra log handlers to set on JupyterHub logger
 #c.JupyterHub.extra_log_handlers = []
