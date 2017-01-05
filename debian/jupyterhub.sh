@@ -6,4 +6,4 @@ if [[ $EUID -ne 0 ]]; then
 fi
 su jupyterhub
 source "${HOME}/bin/activate"
-PATH="${HOME}/node_modules/configurable-http-proxy/bin:${PATH}" jupyterhub "${@}"
+(cd "$HOME" && PATH="${HOME}/node_modules/configurable-http-proxy/bin:${PATH}" jupyterhub "${@}")
