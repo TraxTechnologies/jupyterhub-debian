@@ -41,13 +41,15 @@ case "$1" in
       chmod u=rwx,g=rwx,o= $SERVER_HOME
   fi
   # 6. Add the user to the ADDGROUP group
-  if test -n $ADDGROUP
+
+  if test -n "$ADDGROUP"
   then
-      if ! groups $SERVER_USER | cut -d: -f2 | \
-         grep -qw $ADDGROUP; then
-           adduser $SERVER_USER $ADDGROUP
+      if ! groups "$SERVER_USER" | cut -d: -f2 | \
+         grep -q "$ADDGROUP"; then
+         adduser "$SERVER_USER" "$ADDGROUP"
       fi
   fi
+
   if [ ! -e "${SERVER_HOME}/node_modules" ]; then
     echo "Install node modules: $SERVER_USER";
     cd "${SERVER_HOME}";
