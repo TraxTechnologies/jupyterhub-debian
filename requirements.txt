@@ -1,3 +1,4 @@
 jupyterhub
 notebook
-oauthenticator
+# Use upstream master for 'Generic OAuth2 handler'
+-e git+https://github.com/jupyterhub/oauthenticator.git#egg=oauthenticator
